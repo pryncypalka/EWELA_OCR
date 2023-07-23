@@ -10,7 +10,6 @@ import main_empty_app as empty
 
 def start_program():
     empty_app = empty.App()
-
     empty_app.open_windows()
     empty_app.mainloop()
 

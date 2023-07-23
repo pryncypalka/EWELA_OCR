@@ -12,12 +12,12 @@ class MainApp(tk.Toplevel):
         self.ss_y = None
         self.monitor_index = monitor_index
 
-        # self.overrideredirect(True)
-        self.attributes('-alpha', 0.2)
+        self.overrideredirect(True)
+        self.attributes('-transparentcolor', 'black')
         # app.attributes('-fullscreen', True)
         self.title(f"Okno {monitor_index + 1}")
         self.geometry(f"{spec.monitors[monitor_index].width}x{spec.monitors[monitor_index].height}+"
-                     f"{spec.monitors[monitor_index].x}+{spec.monitors[monitor_index].y}")
+                        f"{spec.monitors[monitor_index].x}+{spec.monitors[monitor_index].y}")
 
 
 
@@ -26,10 +26,10 @@ class MainApp(tk.Toplevel):
         self.canvas.place(x=0, y=0)
 
         tk.Label(self.canvas, text="OCT: Zaznacz obszar ekranu do wyszukania tekstu", bg="black", fg="red",
-                 font=("Arial", 25)).place(x=5, y=5)
+                 font=("Arial", 12)).place(x=5, y=5)
 
-        tk.Button(self.canvas, width=10, height=5, bg="gray", text="ANULUJ", fg="black", command=parent.destroy,
-                  font=("Arial", 15)).place(x=int(spec.monitors[monitor_index].width) - (int(spec.monitors[monitor_index].width)*0.1),
+        tk.Button(self.canvas, width=10, height=1, bg="gray", text="ANULUJ", fg="black", command=parent.destroy,
+                  font=("Arial", 10)).place(x=int(spec.monitors[monitor_index].width) - 125,
                                             y=20)
 
 
@@ -39,5 +39,5 @@ class MainApp(tk.Toplevel):
         # # Przypisanie obsługi zdarzeń dla prawego i lewego przycisku myszy
         # self.bind("<Button-3>", self.show_options)  # Prawy przycisk myszy
         # self.bind("<Button-1>", self.close_options)  # Lewy przycisk mys
-        # tk.Button(self.canvas, width=10, height=5, bg="white", text="ANULUJ", fg="black", command='anuluj',
-        #        font=("Arial", 15)).place(x=int(self.winfo_width()) - 125, y=5)
+
+
