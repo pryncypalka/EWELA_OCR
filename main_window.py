@@ -65,7 +65,7 @@ class MainApp(tk.Toplevel):
         self.last_y = e.y
 
         if self.calculate_rectangle_area():
-            screenshot_rectangle = ss_ocr.ScreenShotOCR(self.old_x, self.old_y, e.x, e.y)
+            screenshot_rectangle = ss_ocr.ScreenShotOCR(self.old_x, self.old_y, e.x, e.y,self.monitor_index)
             screenshot_rectangle.read_text_from_picture()
 
 
