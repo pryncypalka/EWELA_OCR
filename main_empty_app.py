@@ -8,11 +8,6 @@ class App(tk.Tk):
         super().__init__()
         self.overrideredirect(True)
         self.geometry('0x0')
-
-
-
-
-
     def open_windows(self):
         for monitor_index in range(spec.number_of_monitors):
             App.main_apps.append(main_window.MainApp(monitor_index, self))
