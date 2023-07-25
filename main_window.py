@@ -1,8 +1,9 @@
 import tkinter as tk
-
 import specs_check as spec
 import right_button_window as options
 import screenshot_ocr as ss_ocr
+import text_ocr_window as ocr_txt
+import main_empty_app as empty
 class MainApp(tk.Toplevel):
     def __init__(self, monitor_index, parent):
         super().__init__(parent)
@@ -13,7 +14,7 @@ class MainApp(tk.Toplevel):
         self.options_window = None
         self.parent = parent
         self.monitor_index = monitor_index
-        self.attributes('-alpha', 0.2)
+        self.attributes('-alpha', 0.4)
         self.overrideredirect(True)
         self.attributes('-transparentcolor', 'blue')
 
@@ -26,7 +27,7 @@ class MainApp(tk.Toplevel):
                                 height=spec.monitors[monitor_index].height, bg="black")
         self.canvas.place(x=0, y=0)
 
-        tk.Label(self.canvas, text="OCT: Zaznacz obszar ekranu do wyszukania tekstu", bg="black", fg="red",
+        tk.Label(self.canvas, text="OCR: Zaznacz obszar ekranu do wyszukania tekstu", bg="black", fg="red",
                  font=("Arial", 20)).place(x=5, y=5)
 
         tk.Button(self.canvas, width=10, height=1, bg="gray", text="ANULUJ", fg="black", command=parent.destroy,
@@ -63,15 +64,27 @@ class MainApp(tk.Toplevel):
     def release_mouse(self, e):
         self.last_x = e.x
         self.last_y = e.y
+        self.old_x, self.old_y = min(self.old_x, self.last_x), min(self.old_y, self.last_y)
+        self.last_x, self.last_y = max(self.old_x, self.last_x), max(self.old_y, self.last_y)
 
         if self.calculate_rectangle_area():
             screenshot_rectangle = ss_ocr.ScreenShotOCR(self.old_x, self.old_y, e.x, e.y,self.monitor_index)
-            screenshot_rectangle.read_text_from_picture()
+            ocr_done = screenshot_rectangle.read_text_from_picture()
+            if ocr_done:
+                ocr_win = ocr_txt.TextOCR(self.parent, screenshot_rectangle.text)
+                y_diff = self.last_y - self.old_y
+                y_old_root = e.y_root - y_diff
+                x_diff = self.last_x - self.old_x
+                x_old_root = e.x_root - x_diff
+                # if spec.monitors[self.monitor_index].width - e.x_root < 0.5 * spec.monitors[self.monitor_index].width:
+                ocr_win.geometry(f"+{e.x_root}+{y_old_root}")
+                empty.App.destroy_windows()
 
 
-        self.canvas.delete("all")
-        self.canvas.create_rectangle(self.old_x, self.old_y, e.x, e.y, fill="white",
-                                     outline="white", width=2)
+
+        # self.canvas.delete("all")
+        # self.canvas.create_rectangle(self.old_x, self.old_y, e.x, e.y, fill="white",
+        #                              outline="white", width=2)
 
     def show_options(self, event):
         if self.options_window is not None:
@@ -98,3 +111,4 @@ class MainApp(tk.Toplevel):
         area = width * height
         if area > 100:
             return True
+
