@@ -1,26 +1,20 @@
 import keyboard
-import screenshot_ocr as ss_maker
-import settings_file as s_file
-import settings_window as s_w
-import main_window as main_window
-import specs_check as spec
 import main_empty_app as empty
-import icon
-def start_program():
-    empty_app = empty.App()
-    empty_app.open_windows()
-    empty_app.mainloop()
+import tray_icon
+import threading
+import os
 def main():
-    keyboard.add_hotkey('print_screen', start_program)
-    keyboard.wait()
+    empty_app = empty.App()
+    keyboard.add_hotkey('print_screen', empty_app.open_windows)
 
+    tray_thread = threading.Thread(target=tray_icon.TrayIcon)
+    tray_thread.start()
 
+    empty_app.mainloop()
+    keyboard.unhook_all()
 
-
-
-
-
-    
+def exit():
+    os._exit(1)
 
 
 if __name__ == "__main__":

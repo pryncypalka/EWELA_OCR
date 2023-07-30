@@ -1,5 +1,5 @@
 import tkinter as tk
-
+import main_empty_app as empty
 class TextOCR(tk.Toplevel):
     def __init__(self, parent, ocr_text):
         super().__init__(parent)
@@ -18,11 +18,12 @@ class TextOCR(tk.Toplevel):
 
     def close_window(self, event):
         # Zamknięcie okna po wciśnięciu klawisza Esc
-        self.parent.destroy()
+        empty.App.destroy_windows()
     def on_closing(self):
         # Funkcja, która jest wywoływana przy zamykaniu okna
         # Możesz tu dodać dodatkowe czynności, jeśli chcesz
-        self.parent.destroy()
+        empty.App.destroy_windows()
+        self.destroy()
 
 
 

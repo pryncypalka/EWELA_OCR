@@ -30,7 +30,7 @@ class MainApp(tk.Toplevel):
         tk.Label(self.canvas, text="OCR: Zaznacz obszar ekranu do wyszukania tekstu", bg="black", fg="red",
                  font=("Arial", 20)).place(x=5, y=5)
 
-        tk.Button(self.canvas, width=10, height=1, bg="gray", text="ANULUJ", fg="black", command=parent.destroy,
+        tk.Button(self.canvas, width=10, height=1, bg="gray", text="ANULUJ", fg="black", command=empty.App.destroy_windows,
                   font=("Arial", 10)).place(x=int(spec.monitors[monitor_index].width) - 125,
                                             y=20)
 
@@ -45,7 +45,8 @@ class MainApp(tk.Toplevel):
 
     def close_window(self, event):
         # Zamknięcie okna po wciśnięciu klawisza Esc
-        self.parent.destroy()
+        # self.parent.destroy()
+        empty.App.destroy_windows()
 
     def paint(self, e):
         if self.old_x and self.old_y:
@@ -53,10 +54,8 @@ class MainApp(tk.Toplevel):
             self.canvas.create_rectangle(self.old_x, self.old_y, e.x, e.y,  fill="blue", outline="white", width=2)
 
     def press(self, e):
-        print("clicked")
         self.old_x = e.x
         self.old_y = e.y
-        print("x = " + str(e.x) + " y = " + str(e.y))
         self.last_x = e.x
         self.last_y = e.y
 
