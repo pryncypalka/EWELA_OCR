@@ -20,7 +20,8 @@ class ScreenShotOCR:
 
                 # Wykonanie zrzutu ekranu na wybranym obszarze i monitorze
                 monitor = sct.monitors[self.monitor_index+1]
-                monitor_bbox = (monitor["left"] + x1, monitor["top"] + y1, monitor["left"] + x2, monitor["top"] + y2)
+                monitor_bbox = (monitor["left"] + x1 + 2, monitor["top"] + y1 + 2,
+                                monitor["left"] + x2 - 2, monitor["top"] + y2 - 2)
                 screenshot = sct.grab(monitor_bbox)
                 output = "screenshot.png"
                 mss.tools.to_png(screenshot.rgb, screenshot.size, output=output)
