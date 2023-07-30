@@ -12,6 +12,7 @@ class ScreenShotOCR:
         self.last_y = last_y
     def read_text_from_picture(self):
         pytesseract.pytesseract.tesseract_cmd = r'C:\teserrakcik\tesseract'  # Ścieżka do pliku wykonywalnego Tesseract OCR
+        lang = "pol"
         try:
             with mss.mss() as sct:
                 x1, y1, x2, y2 = self.old_x, self.old_y, self.last_x, self.last_y
@@ -25,7 +26,7 @@ class ScreenShotOCR:
                 mss.tools.to_png(screenshot.rgb, screenshot.size, output=output)
 
                 # Wywołanie tesseract do rozpoznawania tekstu z zrzutu ekranu
-                self.text = pytesseract.image_to_string(Image.open("screenshot.png"))
+                self.text = pytesseract.image_to_string(Image.open("screenshot.png"), lang=lang)
                 # self.text = pytesseract.image_to_pdf_or_hocr(Image.open("screenshot.png"), extension='hocr')
         except pytesseract.TesseractError:
             print("Wystąpił błąd podczas przetwarzania obrazu Tesseract.")

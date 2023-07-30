@@ -68,16 +68,23 @@ class MainApp(tk.Toplevel):
         self.last_x, self.last_y = max(self.old_x, self.last_x), max(self.old_y, self.last_y)
 
         if self.calculate_rectangle_area():
-            screenshot_rectangle = ss_ocr.ScreenShotOCR(self.old_x, self.old_y, e.x, e.y,self.monitor_index)
+            screenshot_rectangle = ss_ocr.ScreenShotOCR(self.old_x, self.old_y, e.x, e.y, self.monitor_index)
             ocr_done = screenshot_rectangle.read_text_from_picture()
             if ocr_done:
                 ocr_win = ocr_txt.TextOCR(self.parent, screenshot_rectangle.text)
                 y_diff = self.last_y - self.old_y
                 y_old_root = e.y_root - y_diff
-                x_diff = self.last_x - self.old_x
-                x_old_root = e.x_root - x_diff
-                # if spec.monitors[self.monitor_index].width - e.x_root < 0.5 * spec.monitors[self.monitor_index].width:
-                ocr_win.geometry(f"+{e.x_root}+{y_old_root}")
+
+                if spec.monitors[self.monitor_index].width - e.x_root > (int(spec.monitors[self.monitor_index].width / 5)):
+                    ocr_win.geometry(f"{int(spec.monitors[self.monitor_index].width/5)}x"
+                                     f"{int(spec.monitors[self.monitor_index].height/3)}"
+                                     f"+{e.x_root}+{y_old_root}")
+                else:
+                    x_diff = self.last_x - self.old_x
+                    x_old_root = e.x_root - x_diff
+                    ocr_win.geometry(f"{int(spec.monitors[self.monitor_index].width / 5)}x"
+                                     f"{int(spec.monitors[self.monitor_index].height / 3)}"
+                                     f"+{x_old_root -int(spec.monitors[self.monitor_index].width / 5) }+{y_old_root}")
                 empty.App.destroy_windows()
 
 
