@@ -50,7 +50,7 @@ class IconApp(tk.Toplevel):
         if self.shortcut_key2 == "":
             self.shortcut_key2 = "None"
 
-        if self.shortcut_key2 == "None" and self.shortcut_key2 == "None":
+        if self.shortcut_key1 == "None":
             pass
         else:
             settings.change_settings("first_key", self.shortcut_key1)
