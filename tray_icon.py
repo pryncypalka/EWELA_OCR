@@ -4,6 +4,7 @@ from pystray import Icon, Menu, MenuItem
 from PIL import Image
 
 
+
 class TrayIcon:
     def __init__(self):
         image = Image.open("EwelaOCR.png")  # Wstaw tutaj ścieżkę do twojej ikony (plik .png)
