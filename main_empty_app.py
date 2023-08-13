@@ -11,15 +11,18 @@ class App(tk.Tk):
 
 
     def open_windows(self):
-        for monitor_index in range(spec.number_of_monitors):
-            App.main_apps.append(main_window.MainApp(monitor_index, self))
+        if len(App.main_apps) == 0:
+            for monitor_index in range(spec.number_of_monitors):
+                App.main_apps.append(main_window.MainApp(monitor_index, self))
 
     @classmethod
     def destroy_windows(cls):
         for app in cls.main_apps:
             app.destroy()
+        App.main_apps.clear()
+
     def open_icon_settings(self):
-        window_icon = win_icon.IconApp(self)
+        window_icon = win_icon.SettingsWindow()
 
 
 

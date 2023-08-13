@@ -9,16 +9,23 @@ class TrayIcon:
     def __init__(self):
         image = Image.open("EwelaOCR.png")  # Wstaw tutaj ścieżkę do twojej ikony (plik .png)
         menu = Menu(MenuItem('Settings', self.open_window), MenuItem('Exit', self.on_quit))
-        icon = Icon("EwelaOCR", image, "EwelaOCR", menu)
-        icon.run()
+        self.icon = Icon("EwelaOCR", image, "EwelaOCR", menu)
+        self.icon.run()
         self.window_icon = None
 
     def open_window(self, icon, item):
-        self.window_icon = win_icon.IconApp()
+        self.window_icon = win_icon.SettingsWindow(self)
+
 
     def on_quit(self,icon, item):
         icon.stop()
         main.exit()
+    def stop(self):
+        self.icon.stop()
+
+    def restart_main_app(self):
+        self.window_icon.destroy()
+        main.main()
 
 
 

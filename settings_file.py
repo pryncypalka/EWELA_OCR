@@ -20,6 +20,13 @@ def read_settings():
             "first_key": "print_screen",
             "second_key": "None"
         }
+    except:
+        create_settings_file()
+        settings = {
+            "lang": "pol",
+            "first_key": "print_screen",
+            "second_key": "None"
+        }
     return settings
 
 def change_settings(key, value):
