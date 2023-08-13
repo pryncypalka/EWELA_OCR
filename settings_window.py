@@ -32,10 +32,12 @@ class SettingsWindow(tk.Toplevel):
 
         # Przycisk do ustawiania skrótu
         self.set_shortcut_button = tk.Button(self, text="Wyczyść", command=self.clean_entry_field)
-        self.set_shortcut_button.pack(pady=20)
-        # Przycisk do ustawiania skrótu
+        self.set_shortcut_button.pack(pady=10)
         self.set_shortcut_button = tk.Button(self, text="Ustaw skrót", command=self.update_shortcut)
-        self.set_shortcut_button.pack(pady=20)
+        self.set_shortcut_button.pack(padx=10)
+
+        self.set_shortcut_button = tk.Button(self, text="Ustaw domyślnie", command=self.reset_shortcut)
+        self.set_shortcut_button.pack(pady=10)
 
         # Zmienne przechowujące ustawione klawisze
         self.shortcut_key1 = ""
@@ -65,6 +67,8 @@ class SettingsWindow(tk.Toplevel):
 
         if self.shortcut_key1 == "None":
             pass
+        elif self.shortcut_key1 == self.shortcut_key1:
+            pass
         else:
             settings.change_settings("first_key", self.shortcut_key1)
             settings.change_settings("second_key", self.shortcut_key2)
@@ -73,6 +77,7 @@ class SettingsWindow(tk.Toplevel):
     def on_key_press1(self, event):
         hotkey_event = keyboard.read_event(suppress=True)
         key = hotkey_event.name
+        print(key)
         self.shortcut_entry1.delete(0, tk.END)
         self.shortcut_entry1.insert(0, key)
         self.shortcut_key1 = key
@@ -95,4 +100,13 @@ class SettingsWindow(tk.Toplevel):
         self.shortcut_key1 = "None"
         self.shortcut_key2 = "None"
 
+    def reset_shortcut(self):
+        settings.create_settings_file()
+        self.shortcut_entry1['state'] = 'normal'
+        self.shortcut_entry2['state'] = 'normal'
+        self.shortcut_entry1.delete(0, tk.END)
+        self.shortcut_entry2.delete(0, tk.END)
+        self.shortcut_entry1.insert(0, "print_screen")
+        self.shortcut_key1 = "print_screen"
+        self.shortcut_key2 = "None"
 
