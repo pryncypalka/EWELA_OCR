@@ -8,6 +8,7 @@ class SettingsWindow(tk.Toplevel):
         self.bind("<Escape>", self.close_window)
         self.protocol("WM_DELETE_WINDOW", self.close_window_cross)
         self.geometry("400x400+720+300")
+        self.iconbitmap("EwelaOCR.ico")
 
         # Etykieta u góry okna
         self.label = tk.Label(self, text="Ustaw skrót klawiszowy:", font=("Helvetica", 14))
@@ -37,7 +38,7 @@ class SettingsWindow(tk.Toplevel):
         self.set_shortcut_button.pack(padx=10)
 
         self.set_shortcut_button = tk.Button(self, text="Ustaw domyślnie", command=self.reset_shortcut)
-        self.set_shortcut_button.pack(pady=10)
+        self.set_shortcut_button.pack(pady=30)
 
         # Zmienne przechowujące ustawione klawisze
         self.shortcut_key1 = ""

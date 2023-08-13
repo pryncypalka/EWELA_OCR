@@ -6,7 +6,7 @@ class TextOCR(tk.Toplevel):
         super().__init__(parent)
         self.parent = parent
         self.ocr_text = ocr_text
-        # self.overrideredirect(True)
+
 
         tk.Label(self, text="Pamietaj zawsze sprawdzić poprawność!", fg="red",
                  font=("Arial", 10)).pack()

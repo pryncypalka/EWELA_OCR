@@ -4,7 +4,8 @@ import main_empty_app as empty
 class RButton(tk.Toplevel):
     def __init__(self,  parent):
         super().__init__(parent)
-
+        self.iconbitmap("EwelaOCR.ico")
+        self.title("EwelaOCR")
         self.overrideredirect(True)
         self.attributes('-transparentcolor', 'blue')
         # app.attributes('-fullscreen', True)

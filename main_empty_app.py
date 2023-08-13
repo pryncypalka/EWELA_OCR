@@ -8,7 +8,8 @@ class App(tk.Tk):
         super().__init__()
         self.overrideredirect(True)
         self.withdraw()
-
+        self.iconbitmap("EwelaOCR.ico")
+        self.title("EwelaOCR")
 
     def open_windows(self):
         if len(App.main_apps) == 0:

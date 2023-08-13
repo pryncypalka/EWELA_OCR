@@ -7,6 +7,8 @@ import main_empty_app as empty
 class MainApp(tk.Toplevel):
     def __init__(self, monitor_index, parent):
         super().__init__(parent)
+        self.iconbitmap("EwelaOCR.ico")
+        self.title("EwelaOCR")
         self.old_x = None
         self.old_y = None
         self.last_x = None
@@ -71,6 +73,7 @@ class MainApp(tk.Toplevel):
             ocr_done = screenshot_rectangle.read_text_from_picture()
             if ocr_done:
                 ocr_win = ocr_txt.TextOCR(self.parent, screenshot_rectangle.text)
+
                 y_diff = self.last_y - self.old_y
                 y_old_root = e.y_root - y_diff
 
