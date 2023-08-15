@@ -16,6 +16,10 @@ class Menu(tk.Toplevel):
         tk.Button(self, text="Kopiuj", command=self.copy).pack()
         tk.Button(self, text="Zapisz", command=self.save).pack()
         tk.Button(self, text="Anuluj", command=self.close_window).pack()
+
+    def close_window(self):
+        empty.App.destroy_windows()
+        self.destroy()
     def run_ocr(self):
         self.parent.open_ocr_window(self.event, self.screenshot_rectangle)
         self.destroy()
@@ -33,9 +37,7 @@ class Menu(tk.Toplevel):
             shutil.copy('screenshot.png', new_name)
         self.destroy()
         self.close_window()
-    def close_window(self):
-        empty.App.destroy_windows()
-        self.destroy()
+
 
 
 

@@ -14,6 +14,7 @@ class ScreenShotOCR:
         self.last_y = last_y
         self.ss_done = self.making_ss()
 
+
     def making_ss(self):
         try:
             with mss.mss() as sct:
@@ -62,6 +63,10 @@ class ScreenShotOCR:
         win32clipboard.SetClipboardData(win32clipboard.CF_DIB, data)
         win32clipboard.CloseClipboard()
 
+    def get_size(self):
+        image = Image.open("screenshot.png")
+        width, height = image.size
+        return width, height
 
 
 

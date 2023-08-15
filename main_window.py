@@ -64,23 +64,30 @@ class MainApp(tk.Toplevel):
         self.last_y = e.y
     def open_ocr_window(self,e,screenshot_rectangle):
         ocr_done = screenshot_rectangle.read_text_from_picture()
+        width, height = screenshot_rectangle.get_size()
         if ocr_done:
             ocr_win = ocr_txt.TextOCR(self.parent, screenshot_rectangle.text)
 
             y_diff = self.last_y - self.old_y
             y_old_root = e.y_root - y_diff
 
-            if spec.monitors[self.monitor_index].width - e.x_root > (int(spec.monitors[self.monitor_index].width / 5)):
-                ocr_win.geometry(f"{int(spec.monitors[self.monitor_index].width/5)}x"
-                                 f"{int(spec.monitors[self.monitor_index].height/3)}"
-                                 f"+{e.x_root}+{y_old_root}")
-            else:
-                x_diff = self.last_x - self.old_x
-                x_old_root = e.x_root - x_diff
-                ocr_win.geometry(f"{int(spec.monitors[self.monitor_index].width / 5)}x"
-                                 f"{int(spec.monitors[self.monitor_index].height / 3)}"
-                                 f"+{x_old_root -int(spec.monitors[self.monitor_index].width / 5) }+{y_old_root}")
-            # empty.App.destroy_windows()
+            x_diff = self.last_x - self.old_x
+            x_old_root = e.x_root - x_diff
+
+            ocr_win.geometry(f"{2 * width}x"f"{int(1.2 * height)}"
+                             f"+{x_old_root}+{y_old_root}")
+            # if spec.monitors[self.monitor_index].width - e.x_root > (int(spec.monitors[self.monitor_index].width / 5)):
+            #     ocr_win.geometry(f"{2 * width}x"
+            #                      f"{height}"
+            #                      f"+{e.x_root}+{y_old_root}")
+            # else:
+            #     x_diff = self.last_x - self.old_x
+            #     x_old_root = e.x_root - x_diff
+            #     ocr_win.geometry(f"{2 * width}x"
+            #                      f"{height}"
+            #                      f"+{x_old_root - (2 * width) }+{y_old_root}")
+
+
     def open_menu(self, event, screenshot_rectangle):
         if self.menu_window is not None:
             self.menu_window.destroy()
