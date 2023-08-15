@@ -41,15 +41,13 @@ class MainApp(tk.Toplevel):
         self.canvas.bind('<B1-Motion>', self.paint)  # drwaing the line
         self.canvas.bind('<ButtonRelease-1>', self.release_mouse)
         self.canvas.bind('<ButtonPress-1>', self.press)
-        # Przypisanie obsługi zdarzeń dla prawego i lewego przycisku myszy
+
         self.bind("<Button-3>", self.show_options)  # Prawy przycisk myszy
         self.bind("<Button-1>", self.close_options)  # Lewy przycisk mys
-
+        self.bind("<Button-1>", self.close_menu)
         self.bind("<Escape>", self.close_window)
 
     def close_window(self, event):
-        # Zamknięcie okna po wciśnięciu klawisza Esc
-        # self.parent.destroy()
         empty.App.destroy_windows()
 
     def paint(self, e):
@@ -108,10 +106,13 @@ class MainApp(tk.Toplevel):
         self.last_y = e.y
         self.old_x, self.old_y = min(self.old_x, self.last_x), min(self.old_y, self.last_y)
         self.last_x, self.last_y = max(self.old_x, self.last_x), max(self.old_y, self.last_y)
+        self.canvas.delete("all")
+        self.canvas.create_rectangle(self.old_x, self.old_y, e.x, e.y, fill="white",
+                                     outline="white", width=2)
         if self.calculate_rectangle_area():
             screenshot_rectangle = ss_ocr.ScreenShotOCR(self.old_x, self.old_y, e.x, e.y, self.monitor_index)
             self.open_menu(e, screenshot_rectangle)
-        # self.open_ocr_window(e)
+
 
 
     def show_options(self, event):
