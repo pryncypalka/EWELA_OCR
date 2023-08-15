@@ -36,7 +36,7 @@ class ScreenShotOCR:
 
     def read_text_from_picture(self):
         if self.ss_done:
-            pytesseract.pytesseract.tesseract_cmd = r'C:\teserrakcik\tesseract'  # Ścieżka do pliku wykonywalnego Tesseract OCR
+            pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'  # Ścieżka do pliku wykonywalnego Tesseract OCR
             lang = "pol"
             try:
 
