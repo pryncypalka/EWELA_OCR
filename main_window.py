@@ -72,7 +72,7 @@ class MainApp(tk.Toplevel):
             x_diff = self.last_x - self.old_x
             x_old_root = e.x_root - x_diff
 
-            ocr_win.geometry(f"{2 * width}x"f"{int(1.2 * height)}"
+            ocr_win.geometry(f"{2 * width + 50}x"f"{int( 50+  height)}"
                              f"+{x_old_root}+{y_old_root}")
             # if spec.monitors[self.monitor_index].width - e.x_root > (int(spec.monitors[self.monitor_index].width / 5)):
             #     ocr_win.geometry(f"{2 * width}x"
