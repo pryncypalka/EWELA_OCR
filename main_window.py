@@ -4,6 +4,7 @@ import right_button_window as options
 import screenshot_ocr as ss_ocr
 import text_ocr_window as ocr_txt
 import main_empty_app as empty
+import menu_window as menu
 class MainApp(tk.Toplevel):
     def __init__(self, monitor_index, parent):
         super().__init__(parent)
@@ -14,6 +15,7 @@ class MainApp(tk.Toplevel):
         self.last_x = None
         self.last_y = None
         self.options_window = None
+        self.menu_window = None
         self.parent = parent
         self.monitor_index = monitor_index
         self.attributes('-alpha', 0.4)
@@ -60,40 +62,50 @@ class MainApp(tk.Toplevel):
         self.old_y = e.y
         self.last_x = e.x
         self.last_y = e.y
+    def open_ocr_window(self,e,screenshot_rectangle):
+        ocr_done = screenshot_rectangle.read_text_from_picture()
+        if ocr_done:
+            ocr_win = ocr_txt.TextOCR(self.parent, screenshot_rectangle.text)
 
+            y_diff = self.last_y - self.old_y
+            y_old_root = e.y_root - y_diff
 
+            if spec.monitors[self.monitor_index].width - e.x_root > (int(spec.monitors[self.monitor_index].width / 5)):
+                ocr_win.geometry(f"{int(spec.monitors[self.monitor_index].width/5)}x"
+                                 f"{int(spec.monitors[self.monitor_index].height/3)}"
+                                 f"+{e.x_root}+{y_old_root}")
+            else:
+                x_diff = self.last_x - self.old_x
+                x_old_root = e.x_root - x_diff
+                ocr_win.geometry(f"{int(spec.monitors[self.monitor_index].width / 5)}x"
+                                 f"{int(spec.monitors[self.monitor_index].height / 3)}"
+                                 f"+{x_old_root -int(spec.monitors[self.monitor_index].width / 5) }+{y_old_root}")
+            # empty.App.destroy_windows()
+    def open_menu(self, event, screenshot_rectangle):
+        if self.menu_window is not None:
+            self.menu_window.destroy()
+
+        # Tworzenie nowego okna z opcjami
+        self.menu_window = menu.Menu(self, event, screenshot_rectangle)
+        self.menu_window.geometry(f"+{event.x_root}+{event.y_root}")
+
+        # Usuwanie domyślnych ikon
+        self.menu_window.iconbitmap(default='')  # Usuwanie ikony z paska tytułowego
+
+    def close_menu(self, event):
+        if self.menu_window is not None:
+            self.menu_window.destroy()
+    
     def release_mouse(self, e):
         self.last_x = e.x
         self.last_y = e.y
         self.old_x, self.old_y = min(self.old_x, self.last_x), min(self.old_y, self.last_y)
         self.last_x, self.last_y = max(self.old_x, self.last_x), max(self.old_y, self.last_y)
-
         if self.calculate_rectangle_area():
             screenshot_rectangle = ss_ocr.ScreenShotOCR(self.old_x, self.old_y, e.x, e.y, self.monitor_index)
-            ocr_done = screenshot_rectangle.read_text_from_picture()
-            if ocr_done:
-                ocr_win = ocr_txt.TextOCR(self.parent, screenshot_rectangle.text)
+            self.open_menu(e, screenshot_rectangle)
+        # self.open_ocr_window(e)
 
-                y_diff = self.last_y - self.old_y
-                y_old_root = e.y_root - y_diff
-
-                if spec.monitors[self.monitor_index].width - e.x_root > (int(spec.monitors[self.monitor_index].width / 5)):
-                    ocr_win.geometry(f"{int(spec.monitors[self.monitor_index].width/5)}x"
-                                     f"{int(spec.monitors[self.monitor_index].height/3)}"
-                                     f"+{e.x_root}+{y_old_root}")
-                else:
-                    x_diff = self.last_x - self.old_x
-                    x_old_root = e.x_root - x_diff
-                    ocr_win.geometry(f"{int(spec.monitors[self.monitor_index].width / 5)}x"
-                                     f"{int(spec.monitors[self.monitor_index].height / 3)}"
-                                     f"+{x_old_root -int(spec.monitors[self.monitor_index].width / 5) }+{y_old_root}")
-                empty.App.destroy_windows()
-
-
-
-        # self.canvas.delete("all")
-        # self.canvas.create_rectangle(self.old_x, self.old_y, e.x, e.y, fill="white",
-        #                              outline="white", width=2)
 
     def show_options(self, event):
         if self.options_window is not None:
