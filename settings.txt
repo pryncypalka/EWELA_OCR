@@ -1,3 +1,0 @@
-lang=pol
-first_key=print_screen
-second_key=None

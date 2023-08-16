@@ -14,7 +14,10 @@ def icon_processing():
 
 def main():
     global icon_need
+
+    set_f.init_ewelaocr_folder()
     settings = set_f.read_settings()
+
     empty_app = empty.App()
 
     if icon_need:
