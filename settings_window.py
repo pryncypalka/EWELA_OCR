@@ -47,6 +47,7 @@ class SettingsWindow(tk.Toplevel):
         # Przypisanie funkcji do zdarzeń naciśnięcia klawiszy
         self.shortcut_entry1.bind("<KeyPress>", self.on_key_press1)
         self.shortcut_entry2.bind("<KeyPress>", self.on_key_press2)
+        keyboard.unhook_all()
 
 
 
@@ -67,18 +68,27 @@ class SettingsWindow(tk.Toplevel):
             self.shortcut_key2 = "None"
 
         if self.shortcut_key1 == "None":
-            pass
-        elif self.shortcut_key1 == self.shortcut_key1:
-            pass
+            return
+
+        if self.shortcut_key1 == self.shortcut_key2:
+            return
+        elif self.shortcut_key1 != "None" and self.shortcut_key2 == "None":
+            settings.change_settings("first_key", self.shortcut_key1)
+            settings.change_settings("second_key", self.shortcut_key2)
+            self.shortcut_entry2.delete(0, tk.END)
+            self.shortcut_entry2.insert(0, "None")
+            self.shortcut_entry1['state'] = 'readonly'
+            self.shortcut_entry2['state'] = 'readonly'
         else:
             settings.change_settings("first_key", self.shortcut_key1)
             settings.change_settings("second_key", self.shortcut_key2)
+            self.shortcut_entry1['state'] = 'readonly'
+            self.shortcut_entry2['state'] = 'readonly'
 
 
     def on_key_press1(self, event):
         hotkey_event = keyboard.read_event(suppress=True)
         key = hotkey_event.name
-        print(key)
         self.shortcut_entry1.delete(0, tk.END)
         self.shortcut_entry1.insert(0, key)
         self.shortcut_key1 = key
@@ -108,6 +118,9 @@ class SettingsWindow(tk.Toplevel):
         self.shortcut_entry1.delete(0, tk.END)
         self.shortcut_entry2.delete(0, tk.END)
         self.shortcut_entry1.insert(0, "print_screen")
+        self.shortcut_entry2.insert(0, "None")
         self.shortcut_key1 = "print_screen"
         self.shortcut_key2 = "None"
+        self.shortcut_entry1['state'] = 'readonly'
+        self.shortcut_entry2['state'] = 'readonly'
 

@@ -47,7 +47,7 @@ def change_settings(key, value):
     global settings_path
     settings = read_settings()
     settings[key] = value
-    with open("settings_path", "w") as file:
+    with open(settings_path, "w") as file:
         for key, value in settings.items():
             file.write(f"{key}={value}\n")
 def get_EwelaOCR_path():

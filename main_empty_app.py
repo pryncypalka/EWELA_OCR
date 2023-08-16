@@ -11,6 +11,7 @@ class App(tk.Tk):
         self.iconbitmap("EwelaOCR.ico")
         self.title("EwelaOCR")
 
+
     def open_windows(self):
         if len(App.main_apps) == 0:
             for monitor_index in range(spec.number_of_monitors):
