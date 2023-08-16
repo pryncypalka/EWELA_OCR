@@ -2,7 +2,7 @@ import os
 
 
 settings_path = ""
-
+ss_path = ""
 def check_folder_exists(folder_path):
     if os.path.exists(folder_path) and os.path.isdir(folder_path):
         return True
@@ -60,7 +60,9 @@ def init_ewelaocr_folder():
     if not check_folder_exists(ewelaOCR_path):
         os.makedirs(ewelaOCR_path, exist_ok=True)
     global settings_path
+    global ss_path
     settings_path = os.path.join(ewelaOCR_path, 'settings.txt')
+    ss_path = os.path.join(ewelaOCR_path, 'screenshot.png')
 
 
 

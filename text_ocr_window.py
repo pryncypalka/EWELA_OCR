@@ -1,6 +1,7 @@
 import tkinter as tk
 import main_empty_app as empty
 from PIL import Image, ImageTk
+import settings_file as set_f
 class TextOCR(tk.Toplevel):
     def __init__(self, parent, ocr_text):
         super().__init__(parent)
@@ -13,7 +14,7 @@ class TextOCR(tk.Toplevel):
         right_frame = tk.Frame(self)
         right_frame.pack(side=tk.RIGHT)
 
-        image = Image.open("screenshot.png")
+        image = Image.open(set_f.ss_path)
         self.photo = ImageTk.PhotoImage(image)
         tk.Label(left_frame, image=self.photo).pack()
 

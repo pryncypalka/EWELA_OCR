@@ -1,5 +1,5 @@
 import settings_window as win_icon
-import main
+import EwelaOCR
 from pystray import Icon, Menu, MenuItem
 from PIL import Image
 
@@ -19,13 +19,13 @@ class TrayIcon:
 
     def on_quit(self,icon, item):
         icon.stop()
-        main.exit()
+        EwelaOCR.exit()
     def stop(self):
         self.icon.stop()
 
     def restart_main_app(self):
         self.window_icon.destroy()
-        main.main()
+        EwelaOCR.main()
 
 
 

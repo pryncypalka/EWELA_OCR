@@ -2,6 +2,7 @@ import tkinter as tk
 import main_empty_app as empty
 from tkinter import filedialog
 import shutil
+
 class Menu(tk.Toplevel):
     def __init__(self, parent, event, screenshot_rectangle):
         super().__init__(parent)
