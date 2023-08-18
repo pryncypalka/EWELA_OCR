@@ -89,11 +89,27 @@ class MainApp(tk.Toplevel):
     def open_menu(self, event, screenshot_rectangle):
         if self.menu_window is not None:
             self.menu_window.destroy()
+        y_pos = 0
+        x_pos = 0
+        y_diff = self.last_y - self.old_y
+        y_old_root = event.y_root - y_diff
+
+        x_diff = self.last_x - self.old_x
+        x_old_root = event.x_root - x_diff
 
         # Tworzenie nowego okna z opcjami
         self.menu_window = menu.Menu(self, event, screenshot_rectangle)
-        self.menu_window.geometry(f"+{event.x_root}+{event.y_root}")
+        if event.x_root > (spec.monitors[self.monitor_index].width - 60):
+            x_pos = x_old_root - 60
+        else:
+            x_pos = event.x_root
 
+        if event.y_root > (spec.monitors[self.monitor_index].height - 150):
+            y_pos = event.y_root - 150
+        else:
+            y_pos = event.y_root
+
+        self.menu_window.geometry(f"+{x_pos}+{y_pos}")
         # Usuwanie domyślnych ikon
         self.menu_window.iconbitmap(default='')  # Usuwanie ikony z paska tytułowego
 
