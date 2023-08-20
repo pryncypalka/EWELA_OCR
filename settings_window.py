@@ -89,8 +89,9 @@ class SettingsWindow(tk.Toplevel):
     def check_checkbox(self):
         if self.checkbox_var.get() == 1:
             if getattr(sys, 'frozen', False):
-                exe_path = os.path.dirname(sys.executable)
-                # add_to_startup("EwelaOCR", r"C:\Program Files (x86)\EwelaOCR\EwelaOCR.exe")
+                exe_dir = os.path.dirname(sys.executable)
+                exe_path = os.path.join(exe_dir, 'EwelaOCR.exe')
+                print(exe_path)
                 add_to_startup("EwelaOCR", exe_path)
                 set_f.change_settings("auto_run", "1")
         else:
