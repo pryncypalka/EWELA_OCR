@@ -3,6 +3,19 @@ import os
 
 settings_path = ""
 ss_path = ""
+
+default_settings = """lang=pol
+first_key=print_screen
+second_key=None
+auto_run=0
+"""
+
+settings_dict = {
+            "lang": "pol",
+            "first_key": "print_screen",
+            "second_key": "None",
+            "auto_run": "0"
+        }
 def check_folder_exists(folder_path):
     if os.path.exists(folder_path) and os.path.isdir(folder_path):
         return True
@@ -11,16 +24,14 @@ def check_folder_exists(folder_path):
 
 def create_settings_file():
     global settings_path
-    default_settings = """lang=pol
-first_key=print_screen
-second_key=None
-"""
+    global default_settings
 
     with open(settings_path, 'w') as settings_file:
         settings_file.write(default_settings)
 
 def read_settings():
     global settings_path
+    global settings_dict
     settings = {}
     try:
         with open(settings_path, "r") as file:
@@ -29,18 +40,10 @@ def read_settings():
                 settings[key] = value
     except FileNotFoundError:
         create_settings_file()
-        settings = {
-            "lang": "pol",
-            "first_key": "print_screen",
-            "second_key": "None"
-        }
+        settings = settings_dict
     except:
         create_settings_file()
-        settings = {
-            "lang": "pol",
-            "first_key": "print_screen",
-            "second_key": "None"
-        }
+        settings = settings_dict
     return settings
 
 def change_settings(key, value):

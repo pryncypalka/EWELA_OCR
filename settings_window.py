@@ -1,6 +1,34 @@
 import tkinter as tk
-import settings_file as settings
+import settings_file as set_f
 import keyboard
+import os
+import winreg
+import sys
+
+def add_to_startup(program_name, executable_path):
+    key = r"Software\Microsoft\Windows\CurrentVersion\Run"
+    full_executable_path = os.path.abspath(executable_path)
+
+    try:
+        key = winreg.HKEY_CURRENT_USER
+        with winreg.OpenKey(key, r"Software\Microsoft\Windows\CurrentVersion\Run", 0, winreg.KEY_SET_VALUE) as registry_key:
+            winreg.SetValueEx(registry_key, program_name, 0, winreg.REG_SZ, full_executable_path)
+
+    except Exception as e:
+        print("An error occurred:", e)
+
+
+def remove_from_startup(program_name):
+    try:
+        key = winreg.HKEY_CURRENT_USER
+        with winreg.OpenKey(key, r"Software\Microsoft\Windows\CurrentVersion\Run", 0,
+                            winreg.KEY_SET_VALUE) as registry_key:
+            winreg.DeleteValue(registry_key, program_name)
+    except Exception as e:
+        print("An error occurred:", e)
+
+
+
 class SettingsWindow(tk.Toplevel):
     def __init__(self, icon_object):
         super().__init__()
@@ -9,6 +37,8 @@ class SettingsWindow(tk.Toplevel):
         self.protocol("WM_DELETE_WINDOW", self.close_window_cross)
         self.geometry("400x400+720+300")
         self.iconbitmap("EwelaOCR.ico")
+        self.sett = set_f.read_settings()
+        self.checkbox_var = tk.IntVar(value=int(self.sett["auto_run"]))
 
         # Etykieta u góry okna
         self.label = tk.Label(self, text="Ustaw skrót klawiszowy:", font=("Helvetica", 14))
@@ -27,7 +57,7 @@ class SettingsWindow(tk.Toplevel):
         self.plus_label.pack(side="left")
         self.shortcut_entry2 = tk.Entry(self.frame, font=("Helvetica", 16), width=10)
         self.shortcut_entry2.pack(side="left")
-        self.sett = settings.read_settings()
+
         self.shortcut_entry1.insert(0, self.sett["first_key"])
         self.shortcut_entry2.insert(0, self.sett["second_key"])
 
@@ -39,6 +69,13 @@ class SettingsWindow(tk.Toplevel):
 
         self.set_shortcut_button = tk.Button(self, text="Ustaw domyślnie", command=self.reset_shortcut)
         self.set_shortcut_button.pack(pady=30)
+        self.checkbox = tk.Checkbutton(self, text="Dodaj do autostartu",  onvalue=1, offvalue=0,variable=self.checkbox_var)
+        self.checkbox.pack()
+
+        self.button = tk.Button(self, text="Zatwierdź", command=self.check_checkbox)
+        self.button.pack()
+
+
 
         # Zmienne przechowujące ustawione klawisze
         self.shortcut_key1 = ""
@@ -49,8 +86,16 @@ class SettingsWindow(tk.Toplevel):
         self.shortcut_entry2.bind("<KeyPress>", self.on_key_press2)
         keyboard.unhook_all()
 
-
-
+    def check_checkbox(self):
+        if self.checkbox_var.get() == 1:
+            if getattr(sys, 'frozen', False):
+                exe_path = os.path.dirname(sys.executable)
+                # add_to_startup("EwelaOCR", r"C:\Program Files (x86)\EwelaOCR\EwelaOCR.exe")
+                add_to_startup("EwelaOCR", exe_path)
+                set_f.change_settings("auto_run", "1")
+        else:
+            remove_from_startup("EwelaOCR")
+            set_f.change_settings("auto_run", "0")
 
     def close_window(self, event):
         # Zamknięcie okna po wciśnięciu klawisza Esc
@@ -73,15 +118,15 @@ class SettingsWindow(tk.Toplevel):
         if self.shortcut_key1 == self.shortcut_key2:
             return
         elif self.shortcut_key1 != "None" and self.shortcut_key2 == "None":
-            settings.change_settings("first_key", self.shortcut_key1)
-            settings.change_settings("second_key", self.shortcut_key2)
+            set_f.change_settings("first_key", self.shortcut_key1)
+            set_f.change_settings("second_key", self.shortcut_key2)
             self.shortcut_entry2.delete(0, tk.END)
             self.shortcut_entry2.insert(0, "None")
             self.shortcut_entry1['state'] = 'readonly'
             self.shortcut_entry2['state'] = 'readonly'
         else:
-            settings.change_settings("first_key", self.shortcut_key1)
-            settings.change_settings("second_key", self.shortcut_key2)
+            set_f.change_settings("first_key", self.shortcut_key1)
+            set_f.change_settings("second_key", self.shortcut_key2)
             self.shortcut_entry1['state'] = 'readonly'
             self.shortcut_entry2['state'] = 'readonly'
 
@@ -112,7 +157,7 @@ class SettingsWindow(tk.Toplevel):
         self.shortcut_key2 = "None"
 
     def reset_shortcut(self):
-        settings.create_settings_file()
+        set_f.create_settings_file()
         self.shortcut_entry1['state'] = 'normal'
         self.shortcut_entry2['state'] = 'normal'
         self.shortcut_entry1.delete(0, tk.END)
@@ -123,4 +168,6 @@ class SettingsWindow(tk.Toplevel):
         self.shortcut_key2 = "None"
         self.shortcut_entry1['state'] = 'readonly'
         self.shortcut_entry2['state'] = 'readonly'
+
+
 
