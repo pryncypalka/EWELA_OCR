@@ -2,8 +2,11 @@ import settings_window as win_icon
 import EwelaOCR
 from pystray import Icon, Menu, MenuItem
 from PIL import Image
-
-
+import sys
+import os
+def restart_program():
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
 
 class TrayIcon:
     def __init__(self):
@@ -25,7 +28,7 @@ class TrayIcon:
 
     def restart_main_app(self):
         self.window_icon.destroy()
-        EwelaOCR.main()
+        restart_program()
 
 
 
