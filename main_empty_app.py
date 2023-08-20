@@ -1,7 +1,7 @@
 import tkinter as tk
 import specs_check as spec
 import main_window
-import settings_window as win_icon
+
 class App(tk.Tk):
     main_apps = []
     def __init__(self):
@@ -23,8 +23,7 @@ class App(tk.Tk):
             app.destroy()
         App.main_apps.clear()
 
-    def open_icon_settings(self):
-        window_icon = win_icon.SettingsWindow()
+
 
 
 

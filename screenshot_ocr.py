@@ -5,7 +5,7 @@ from io import BytesIO
 import win32clipboard
 from PIL import Image
 import settings_file as set_f
-import os
+
 class ScreenShotOCR:
     def __init__(self, old_x, old_y, last_x, last_y, monitor_index):
         self.monitor_index = monitor_index
