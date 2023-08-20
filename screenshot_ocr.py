@@ -43,9 +43,10 @@ class ScreenShotOCR:
             pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'  # Ścieżka do pliku wykonywalnego Tesseract OCR
             lang = "pol"
             try:
+                image = Image.open(set_f.ss_path)
 
                 # Wywołanie tesseract do rozpoznawania tekstu z zrzutu ekranu
-                self.text = pytesseract.image_to_string(Image.open(set_f.ss_path), lang=lang)
+                self.text = pytesseract.image_to_string(image, lang=lang)
                 # self.text = pytesseract.image_to_pdf_or_hocr(Image.open(set_f.ss_path), extension='hocr')
             except pytesseract.TesseractError:
                 print("Wystąpił błąd podczas przetwarzania obrazu Tesseract.")

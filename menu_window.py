@@ -1,6 +1,7 @@
 import tkinter as tk
 import main_empty_app as empty
 from tkinter import filedialog
+import settings_file as set_f
 import shutil
 
 class Menu(tk.Toplevel):
@@ -35,7 +36,7 @@ class Menu(tk.Toplevel):
     def save(self):
         new_name = filedialog.asksaveasfilename(defaultextension=".png", title="Zapisz jako...")
         if new_name:
-            shutil.copy('screenshot.png', new_name)
+            shutil.copy(set_f.ss_path, new_name)
         self.destroy()
         self.close_window()
 
