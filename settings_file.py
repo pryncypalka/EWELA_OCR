@@ -81,4 +81,9 @@ def init_ewelaocr_folder():
         icon_ico_path = os.path.join(exe_path, 'EwelaOCR.ico')
         tesseract_path = os.path.join(exe_path, r'Tesseract-OCR\tesseract')
 
+    else:
+        icon_png_path = 'EwelaOCR.png'
+        icon_ico_path = 'EwelaOCR.ico'
+        tesseract_path = r'Tesseract-OCR\tesseract'
+
 
