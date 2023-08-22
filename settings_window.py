@@ -36,7 +36,7 @@ class SettingsWindow(tk.Toplevel):
         self.bind("<Escape>", self.close_window)
         self.protocol("WM_DELETE_WINDOW", self.close_window_cross)
         self.geometry("400x400+720+300")
-        self.iconbitmap("EwelaOCR.ico")
+        self.iconbitmap(set_f.icon_ico_path)
         self.sett = set_f.read_settings()
         self.checkbox_var = tk.IntVar(value=int(self.sett["auto_run"]))
 
@@ -91,7 +91,6 @@ class SettingsWindow(tk.Toplevel):
             if getattr(sys, 'frozen', False):
                 exe_dir = os.path.dirname(sys.executable)
                 exe_path = os.path.join(exe_dir, 'EwelaOCR.exe')
-                print(exe_path)
                 add_to_startup("EwelaOCR", exe_path)
                 set_f.change_settings("auto_run", "1")
         else:

@@ -1,8 +1,11 @@
 import os
-
+import sys
 
 settings_path = ""
 ss_path = ""
+icon_png_path = ""
+icon_ico_path = ""
+tesseract_path = ""
 
 default_settings = """lang=pol
 first_key=print_screen
@@ -64,8 +67,18 @@ def init_ewelaocr_folder():
         os.makedirs(ewelaOCR_path, exist_ok=True)
     global settings_path
     global ss_path
+    global icon_png_path
+    global icon_ico_path
+    global tesseract_path
+
     settings_path = os.path.join(ewelaOCR_path, 'settings.txt')
     ss_path = os.path.join(ewelaOCR_path, 'screenshot.png')
+    if getattr(sys, 'frozen', False):
+        exe_dir = os.path.dirname(sys.executable)
+        exe_path = os.path.join(exe_dir, 'EwelaOCR.exe')
 
+        icon_png_path = os.path.join(exe_path, 'EwelaOCR.png')
+        icon_ico_path = os.path.join(exe_path, 'EwelaOCR.ico')
+        tesseract_path = os.path.join(exe_path, r'Tesseract-OCR\tesseract')
 
 

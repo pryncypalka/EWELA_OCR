@@ -5,10 +5,11 @@ import screenshot_ocr as ss_ocr
 import text_ocr_window as ocr_txt
 import main_empty_app as empty
 import menu_window as menu
+import settings_file as set_f
 class MainApp(tk.Toplevel):
     def __init__(self, monitor_index, parent):
         super().__init__(parent)
-        self.iconbitmap("EwelaOCR.ico")
+        self.iconbitmap(set_f.icon_ico_path)
         self.title("EwelaOCR")
         self.old_x = None
         self.old_y = None
@@ -30,9 +31,6 @@ class MainApp(tk.Toplevel):
         self.canvas = tk.Canvas(self, width=spec.monitors[monitor_index].width,
                                 height=spec.monitors[monitor_index].height, bg="black")
         self.canvas.place(x=0, y=0)
-
-        tk.Label(self.canvas, text="OCR: Zaznacz obszar ekranu do wyszukania tekstu", bg="black", fg="red",
-                 font=("Arial", 20)).place(x=5, y=5)
 
         tk.Button(self.canvas, width=10, height=1, bg="gray", text="ANULUJ", fg="black", command=empty.App.destroy_windows,
                   font=("Arial", 10)).place(x=int(spec.monitors[monitor_index].width) - 125,

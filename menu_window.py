@@ -8,7 +8,7 @@ class Menu(tk.Toplevel):
     def __init__(self, parent, event, screenshot_rectangle):
         super().__init__(parent)
         self.parent = parent
-        self.iconbitmap("EwelaOCR.ico")
+        self.iconbitmap(set_f.icon_ico_path)
         self.title("EwelaOCR")
         self.event = event
         self.screenshot_rectangle = screenshot_rectangle

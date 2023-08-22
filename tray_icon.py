@@ -4,13 +4,14 @@ from pystray import Icon, Menu, MenuItem
 from PIL import Image
 import sys
 import os
+import settings_file as set_f
 def restart_program():
     python = sys.executable
     os.execl(python, python, *sys.argv)
 
 class TrayIcon:
     def __init__(self):
-        image = Image.open("EwelaOCR.png")  # Wstaw tutaj ścieżkę do twojej ikony (plik .png)
+        image = Image.open(set_f.icon_png_path)  # Wstaw tutaj ścieżkę do twojej ikony (plik .png)
         menu = Menu(MenuItem('Settings', self.open_window), MenuItem('Exit', self.on_quit))
         self.icon = Icon("EwelaOCR", image, "EwelaOCR", menu)
         self.icon.run()

@@ -1,14 +1,14 @@
 import tkinter as tk
 import specs_check as spec
 import main_window
-
+import settings_file as set_f
 class App(tk.Tk):
     main_apps = []
     def __init__(self):
         super().__init__()
         self.overrideredirect(True)
         self.withdraw()
-        self.iconbitmap("EwelaOCR.ico")
+        self.iconbitmap(set_f.icon_ico_path)
         self.title("EwelaOCR")
 
 
