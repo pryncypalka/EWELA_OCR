@@ -75,11 +75,10 @@ def init_ewelaocr_folder():
     ss_path = os.path.join(ewelaOCR_path, 'screenshot.png')
     if getattr(sys, 'frozen', False):
         exe_dir = os.path.dirname(sys.executable)
-        exe_path = os.path.join(exe_dir, 'EwelaOCR.exe')
 
-        icon_png_path = os.path.join(exe_path, 'EwelaOCR.png')
-        icon_ico_path = os.path.join(exe_path, 'EwelaOCR.ico')
-        tesseract_path = os.path.join(exe_path, r'Tesseract-OCR\tesseract')
+        icon_png_path = os.path.join(exe_dir, 'EwelaOCR.png')
+        icon_ico_path = os.path.join(exe_dir, 'EwelaOCR.ico')
+        tesseract_path = os.path.join(exe_dir, r'Tesseract-OCR\tesseract')
 
     else:
         icon_png_path = 'EwelaOCR.png'
