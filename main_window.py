@@ -9,6 +9,7 @@ import settings_file as set_f
 class MainApp(tk.Toplevel):
     def __init__(self, monitor_index, parent):
         super().__init__(parent)
+        self.lift()
         self.iconbitmap(set_f.icon_ico_path)
         self.title("EwelaOCR")
         self.old_x = None

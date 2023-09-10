@@ -36,9 +36,10 @@ class Menu(tk.Toplevel):
     def save(self):
         new_name = filedialog.asksaveasfilename(defaultextension=".png", title="Zapisz jako...")
         if new_name:
+            self.destroy()
+            self.close_window()
             shutil.copy(set_f.ss_path, new_name)
-        self.destroy()
-        self.close_window()
+
 
 
 
