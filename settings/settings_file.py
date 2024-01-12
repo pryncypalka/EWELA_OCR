@@ -3,6 +3,7 @@ import sys
 
 settings_path = ""
 ss_path = ""
+ss_bg_path = ""
 icon_png_path = ""
 icon_ico_path = ""
 tesseract_path = ""
@@ -71,7 +72,9 @@ def init_ewelaocr_folder():
     global icon_png_path
     global icon_ico_path
     global tesseract_path
+    global ss_bg_path 
 
+    ss_bg_path = os.path.join(ewelaOCR_path, 'screenshot_bg.png')
     settings_path = os.path.join(ewelaOCR_path, 'settings.txt')
     ss_path = os.path.join(ewelaOCR_path, 'screenshot.png')
     if getattr(sys, 'frozen', False):

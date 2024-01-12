@@ -4,7 +4,7 @@ import mss.tools
 from io import BytesIO
 import win32clipboard
 from PIL import Image
-import settings_file as set_f
+from settings import settings_file as set_f
 
 class ScreenShotOCR:
     def __init__(self, old_x, old_y, last_x, last_y, monitor_index):
@@ -25,7 +25,7 @@ class ScreenShotOCR:
                 x1, y1, x2, y2 = self.old_x, self.old_y, self.last_x, self.last_y
 
 
-                # Wykonanie zrzutu ekranu na wybranym obszarze i monitorze
+
                 monitor = sct.monitors[self.monitor_index+1]
                 monitor_bbox = (monitor["left"] + x1 + 2, monitor["top"] + y1 + 2,
                                 monitor["left"] + x2 - 2, monitor["top"] + y2 - 2)

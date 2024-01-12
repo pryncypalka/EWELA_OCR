@@ -1,10 +1,10 @@
 import tkinter as tk
-import main_empty_app as empty
+from window_tree import main_empty_app as empty
 from tkinter import filedialog
-import settings_file as set_f
+from settings import settings_file as set_f
 import shutil
-
-class Menu(tk.Toplevel):
+from window_tree.Window import Window
+class Menu(tk.Toplevel, Window):
     def __init__(self, parent, event, screenshot_rectangle):
         super().__init__(parent)
         self.parent = parent
@@ -19,7 +19,7 @@ class Menu(tk.Toplevel):
         tk.Button(self, text="Zapisz", command=self.save).pack()
         tk.Button(self, text="Anuluj", command=self.close_window).pack()
 
-    def close_window(self):
+    def close_window(self,event = None):
         empty.App.destroy_windows()
         self.destroy()
     def run_ocr(self):

@@ -1,5 +1,5 @@
 import tkinter as tk
-import settings_file as set_f
+from settings import settings_file as set_f
 import keyboard
 import os
 import winreg

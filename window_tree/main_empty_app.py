@@ -1,8 +1,9 @@
 import tkinter as tk
-import specs_check as spec
-import main_window
-import settings_file as set_f
-class App(tk.Tk):
+from settings import specs_check as spec
+from window_tree import main_window
+from settings import settings_file as set_f
+from window_tree.Window import Window
+class App(tk.Tk, Window):
     main_apps = []
     def __init__(self):
         super().__init__()
@@ -22,6 +23,12 @@ class App(tk.Tk):
         for app in cls.main_apps:
             app.destroy()
         App.main_apps.clear()
+
+
+    def close_window(self, event = None):
+        self.destroy()
+
+
 
 
 

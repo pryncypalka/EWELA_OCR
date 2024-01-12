@@ -1,13 +1,18 @@
 import tkinter as tk
-import specs_check as spec
-import right_button_window as options
+from settings import specs_check as spec
+from window_tree import right_button_window as options
 import screenshot_ocr as ss_ocr
-import text_ocr_window as ocr_txt
-import main_empty_app as empty
-import menu_window as menu
-import settings_file as set_f
-class MainApp(tk.Toplevel):
+from window_tree import text_ocr_window as ocr_txt
+from window_tree import main_empty_app as empty
+from window_tree  import menu_window as menu
+from settings import settings_file as set_f
+from PIL import ImageTk
+import Bg_screenshot as bg_ss
+from window_tree.Window import Window
+class MainApp(tk.Toplevel, Window):
     def __init__(self, monitor_index, parent):
+        self.bg_canvas = bg_ss.Bg_screenshot(monitor_index)
+        self.background_image = ImageTk.PhotoImage(self.bg_canvas.making_ss())
         super().__init__(parent)
         self.lift()
         self.iconbitmap(set_f.icon_ico_path)
@@ -20,17 +25,20 @@ class MainApp(tk.Toplevel):
         self.menu_window = None
         self.parent = parent
         self.monitor_index = monitor_index
-        self.attributes('-alpha', 0.4)
+        #self.attributes('-alpha', 0.4)
         self.overrideredirect(True)
-        self.attributes('-transparentcolor', 'blue')
+
+
+
 
         self.geometry(f"{spec.monitors[monitor_index].width}x{spec.monitors[monitor_index].height}+"
                         f"{spec.monitors[monitor_index].x}+{spec.monitors[monitor_index].y}")
 
 
 
-        self.canvas = tk.Canvas(self, width=spec.monitors[monitor_index].width,
-                                height=spec.monitors[monitor_index].height, bg="black")
+
+        self.canvas = tk.Canvas(self, width=self.background_image.width(), height=self.background_image.height())
+        self.canvas.create_image(0, 0, anchor=tk.NW, image=self.background_image)
         self.canvas.place(x=0, y=0)
 
         tk.Button(self.canvas, width=10, height=1, bg="gray", text="ANULUJ", fg="black", command=empty.App.destroy_windows,
@@ -51,8 +59,10 @@ class MainApp(tk.Toplevel):
 
     def paint(self, e):
         if self.old_x and self.old_y:
-            self.canvas.delete("all")
-            self.canvas.create_rectangle(self.old_x, self.old_y, e.x, e.y,  fill="blue", outline="white", width=2)
+
+            self.canvas.delete("rectangle")
+            self.canvas.create_rectangle(
+                self.old_x, self.old_y, e.x, e.y, fill="", outline="white", width=2, tags="rectangle")
 
     def press(self, e):
         self.old_x = e.x
@@ -73,16 +83,7 @@ class MainApp(tk.Toplevel):
 
             ocr_win.geometry(f"{2 * width + 50}x"f"{int( 50+  height)}"
                              f"+{x_old_root}+{y_old_root}")
-            # if spec.monitors[self.monitor_index].width - e.x_root > (int(spec.monitors[self.monitor_index].width / 5)):
-            #     ocr_win.geometry(f"{2 * width}x"
-            #                      f"{height}"
-            #                      f"+{e.x_root}+{y_old_root}")
-            # else:
-            #     x_diff = self.last_x - self.old_x
-            #     x_old_root = e.x_root - x_diff
-            #     ocr_win.geometry(f"{2 * width}x"
-            #                      f"{height}"
-            #                      f"+{x_old_root - (2 * width) }+{y_old_root}")
+
 
 
     def open_menu(self, event, screenshot_rectangle):
@@ -121,9 +122,9 @@ class MainApp(tk.Toplevel):
         self.last_y = e.y
         self.old_x, self.old_y = min(self.old_x, self.last_x), min(self.old_y, self.last_y)
         self.last_x, self.last_y = max(self.old_x, self.last_x), max(self.old_y, self.last_y)
-        self.canvas.delete("all")
-        self.canvas.create_rectangle(self.old_x, self.old_y, e.x, e.y, fill="white",
-                                     outline="white", width=2)
+        self.canvas.delete("rectangle")
+        self.canvas.create_rectangle(
+            self.old_x, self.old_y, e.x, e.y, fill="", outline="white", width=2, tags="rectangle")
         if self.calculate_rectangle_area():
             screenshot_rectangle = ss_ocr.ScreenShotOCR(self.old_x, self.old_y, e.x, e.y, self.monitor_index)
             self.open_menu(e, screenshot_rectangle)

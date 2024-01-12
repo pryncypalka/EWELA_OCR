@@ -4,7 +4,7 @@ from pystray import Icon, Menu, MenuItem
 from PIL import Image
 import sys
 import os
-import settings_file as set_f
+from settings import settings_file as set_f
 def restart_program():
     python = sys.executable
     os.execl(python, python, *sys.argv)
