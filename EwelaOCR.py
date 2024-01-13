@@ -7,7 +7,7 @@ from settings import settings_file as set_f
 import win32gui
 import win32con
 
-icon_need = True
+
 
 def exit():
     os._exit(1)
@@ -26,19 +26,17 @@ def icon_processing():
 
 
 def main():
-    global icon_need
+
 
     set_f.init_ewelaocr_folder()
     settings = set_f.read_settings()
 
     empty_app = empty.App()
 
-    if icon_need:
-        tray_icon_thread = threading.Thread(target=icon_processing)
-        tray_icon_thread.start()
-        icon_need = False
-    else:
-        pass
+
+    tray_icon_thread = threading.Thread(target=icon_processing)
+    tray_icon_thread.start()
+
 
     pumpMessages_thread = threading.Thread(target=win32gui.PumpMessages)
     pumpMessages_thread.start()
