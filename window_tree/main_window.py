@@ -63,7 +63,7 @@ class MainApp(tk.Toplevel, Window):
 
             self.canvas.delete("rectangle")
             self.canvas.create_rectangle(
-                self.old_x, self.old_y, e.x, e.y, fill="", outline="white", width=2, tags="rectangle")
+                self.old_x, self.old_y, e.x, e.y, fill="", outline="red", width=2, tags="rectangle")
 
     def press(self, e):
         self.old_x = e.x
@@ -126,7 +126,7 @@ class MainApp(tk.Toplevel, Window):
         self.last_x, self.last_y = max(self.old_x, self.last_x), max(self.old_y, self.last_y)
         self.canvas.delete("rectangle")
         self.canvas.create_rectangle(
-            self.old_x, self.old_y, e.x, e.y, fill="", outline="white", width=2, tags="rectangle")
+            self.old_x, self.old_y, e.x, e.y, fill="", outline="red", width=2, tags="rectangle")
         if self.calculate_rectangle_area():
             screenshot_rectangle = ss_ocr.ScreenShotOCR(self.old_x, self.old_y, e.x, e.y, self.monitor_index)
             self.open_menu(e, screenshot_rectangle)
