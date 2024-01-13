@@ -10,8 +10,20 @@ def restart_program():
     os.execl(python, python, *sys.argv)
 
 class TrayIcon:
+    _instance = None
+
+    def __new__(cls):
+        if not cls._instance:
+            cls._instance = super(TrayIcon, cls).__new__(cls)
+            cls._instance._initialized = False
+        return cls._instance
+
     def __init__(self):
-        image = Image.open(set_f.icon_png_path)  # Wstaw tutaj ścieżkę do twojej ikony (plik .png)
+        if self._initialized:
+            return
+        self._initialized = True
+
+        image = Image.open(set_f.icon_png_path)
         menu = Menu(MenuItem('Settings', self.open_window), MenuItem('Exit', self.on_quit))
         self.icon = Icon("EwelaOCR", image, "EwelaOCR", menu)
         self.icon.run()
@@ -20,10 +32,10 @@ class TrayIcon:
     def open_window(self, icon, item):
         self.window_icon = win_icon.SettingsWindow(self)
 
-
-    def on_quit(self,icon, item):
+    def on_quit(self, icon, item):
         icon.stop()
         EwelaOCR.exit()
+
     def stop(self):
         self.icon.stop()
 

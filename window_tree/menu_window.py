@@ -4,6 +4,8 @@ from tkinter import filedialog
 from settings import settings_file as set_f
 import shutil
 from window_tree.Window import Window
+from SSAction.CopySSDecorator import CopySSDecorator
+from SSAction.SaveSSDecorator import SaveSSDecorator
 class Menu(tk.Toplevel, Window):
     def __init__(self, parent, event, screenshot_rectangle):
         super().__init__(parent)
@@ -19,7 +21,7 @@ class Menu(tk.Toplevel, Window):
         tk.Button(self, text="Zapisz", command=self.save).pack()
         tk.Button(self, text="Anuluj", command=self.close_window).pack()
 
-    def close_window(self,event = None):
+    def close_window(self, event=None):
         empty.App.destroy_windows()
         self.destroy()
     def run_ocr(self):
@@ -28,13 +30,16 @@ class Menu(tk.Toplevel, Window):
         self.close_window()
 
     def copy(self):
-        self.screenshot_rectangle.copy_ss()
+        copy_action = CopySSDecorator(self.screenshot_rectangle)
+        copy_action.action()
+        # self.screenshot_rectangle.copy_ss()
         self.destroy()
         self.close_window()
 
 
     def save(self):
-        new_name = filedialog.asksaveasfilename(defaultextension=".png", title="Zapisz jako...")
+        save_action = SaveSSDecorator(self.screenshot_rectangle)
+        new_name = save_action.action()
         if new_name:
             self.destroy()
             self.close_window()

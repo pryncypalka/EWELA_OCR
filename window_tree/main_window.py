@@ -1,7 +1,7 @@
 import tkinter as tk
 from settings import specs_check as spec
 from window_tree import right_button_window as options
-import screenshot_ocr as ss_ocr
+from SSAction import screenshot_ocr as ss_ocr
 from window_tree import text_ocr_window as ocr_txt
 from window_tree import main_empty_app as empty
 from window_tree  import menu_window as menu
@@ -9,6 +9,7 @@ from settings import settings_file as set_f
 from PIL import ImageTk
 import Bg_screenshot as bg_ss
 from window_tree.Window import Window
+from SSAction.OCRSSDecorator import OCRSSDecorator
 class MainApp(tk.Toplevel, Window):
     def __init__(self, monitor_index, parent):
         self.bg_canvas = bg_ss.Bg_screenshot(monitor_index)
@@ -70,10 +71,11 @@ class MainApp(tk.Toplevel, Window):
         self.last_x = e.x
         self.last_y = e.y
     def open_ocr_window(self,e,screenshot_rectangle):
-        ocr_done = screenshot_rectangle.read_text_from_picture()
+        ocr_action = OCRSSDecorator(screenshot_rectangle)
+        ocr_done = ocr_action.action()
         width, height = screenshot_rectangle.get_size()
         if ocr_done:
-            ocr_win = ocr_txt.TextOCR(self.parent, screenshot_rectangle.text)
+            ocr_win = ocr_txt.TextOCR(self.parent, ocr_action.text)
 
             y_diff = self.last_y - self.old_y
             y_old_root = e.y_root - y_diff
