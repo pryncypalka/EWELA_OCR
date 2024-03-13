@@ -7,8 +7,6 @@ from settings import settings_file as set_f
 import win32gui
 import win32con
 
-
-
 def exit():
     os._exit(1)
 
