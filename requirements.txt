@@ -1,0 +1,9 @@
+keyboard==0.13.5
+mss==10.0.0
+packaging==24.2
+pillow==11.1.0
+pystray==0.19.5
+pytesseract==0.3.13
+pywin32==310
+screeninfo==0.8.1
+six==1.17.0
